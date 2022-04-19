@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using System;
 
 namespace LI.Carrinho.API.Controllers
 {
@@ -11,6 +13,11 @@ namespace LI.Carrinho.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult HealthCheck() => Ok("A aplicação está saudável!");
+        public ActionResult HealthCheck()
+        {
+            Log.Information("O log funcionou!");
+
+            return Ok("A aplicação está saudável!");
+        } 
     }
 }

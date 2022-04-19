@@ -1,3 +1,6 @@
+using FluentValidation.AspNetCore;
+using LI.Carrinho.API.Filters;
+using LI.Carrinho.API.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +27,15 @@ namespace LI.Carrinho.API
             services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddControllers();
+
+            services.AddFluentValidation();
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new DefaultExceptionFilterAttribute());
+            });
+
+            services.AddLoggingSerilog();
 
             services.AddHealthChecks();
 

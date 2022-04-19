@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LI.Carrinho.Application\LI.Carrinho.Application.csproj" />
+    <ProjectReference Include="..\LI.Carrinho.Domain\LI.Carrinho.Domain.csproj" />
+    <ProjectReference Include="..\LI.Carrinho.Infrastructure\LI.Carrinho.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

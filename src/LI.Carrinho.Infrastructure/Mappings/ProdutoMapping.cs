@@ -10,19 +10,19 @@ namespace LI.Carrinho.Infrastructure.Mappings
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(f => f.Nome)
+            builder.Property(x => x.Nome)
                .IsRequired()
                .HasColumnType("varchar(100)");
 
-            builder.Property(f => f.Descricao)
+            builder.Property(x => x.Descricao)
               .IsRequired()
               .HasColumnType("varchar(300)");
 
-            builder.Property(f => f.Peso)
+            builder.Property(x => x.Peso)
                .IsRequired()
                .HasColumnType("int");
 
-            builder.Property(f => f.Preco)
+            builder.Property(x => x.Preco)
                .IsRequired()
                .HasColumnType("decimal(10,2)");
 

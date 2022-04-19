@@ -8,5 +8,6 @@ namespace LI.Carrinho.Domain.Entities
         public string Cpf { get; set; }
         public DateTime DtNascimento { get; set; }
         public string Email { get; set; }
+        public CarrinhoEntity Carrinho { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace LI.Carrinho.Infrastructure.Mappings
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(f => f.Nome)
+            builder.Property(x => x.Nome)
                 .IsRequired()
                 .HasColumnType("varchar(100)");
 
@@ -23,9 +23,13 @@ namespace LI.Carrinho.Infrastructure.Mappings
                 .IsRequired()
                 .HasColumnType("datetime");
 
-            builder.Property(f => f.Email)
+            builder.Property(x => x.Email)
               .IsRequired()
               .HasColumnType("varchar(100)");
+
+            builder.HasOne(x => x.Carrinho)
+                .WithOne(x => x.Cliente)
+                .HasForeignKey<CarrinhoEntity>(x => x.IdCliente);
 
             builder.ToTable("TB_CLIENTE");
         }

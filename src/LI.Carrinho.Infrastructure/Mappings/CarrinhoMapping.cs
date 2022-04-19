@@ -8,9 +8,9 @@ namespace LI.Carrinho.Infrastructure.Mappings
     {
         public void Configure(EntityTypeBuilder<CarrinhoEntity> builder)
         {
-            builder.HasKey(f => f.Id);
+            builder.HasKey(x => x.Id);
 
-            builder.Property(f => f.VlTotal)
+            builder.Property(x => x.VlTotal)
              .IsRequired()
              .HasColumnType("decimal(10,2)");
         }

@@ -13,6 +13,8 @@ namespace LI.Carrinho.Infrastructure.Mappings
             builder.Property(x => x.VlTotal)
              .IsRequired()
              .HasColumnType("decimal(10,2)");
+
+            builder.ToTable("TB_CARRINHO");
         }
     }
 }

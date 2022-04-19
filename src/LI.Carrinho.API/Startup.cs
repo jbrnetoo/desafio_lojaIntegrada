@@ -1,8 +1,10 @@
 using FluentValidation.AspNetCore;
 using LI.Carrinho.API.Filters;
 using LI.Carrinho.API.Logging;
+using LI.Carrinho.Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,7 +23,6 @@ namespace LI.Carrinho.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -36,6 +37,9 @@ namespace LI.Carrinho.API
             });
 
             services.AddLoggingSerilog();
+
+            services.AddDbContext<CarrinhoContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddHealthChecks();
 
@@ -58,7 +62,6 @@ namespace LI.Carrinho.API
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

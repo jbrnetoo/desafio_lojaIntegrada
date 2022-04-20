@@ -24,6 +24,8 @@ namespace LI.Carrinho.CrossCutting.IoC
 
         private static void RegisterApplications(IServiceCollection services)
         {
+            services.AddScoped<IClienteApplication, ClienteApplication>();
+            services.AddScoped<IProdutoApplication, ProdutoApplication>();
             services.AddScoped<ICarrinhoApplication, CarrinhoApplication>();
         }
 

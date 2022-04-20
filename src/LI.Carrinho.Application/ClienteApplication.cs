@@ -33,6 +33,13 @@ namespace LI.Carrinho.Application
             return Result<ClienteModel>.Ok(_mapper.Map<ClienteModel>(cliente));
         }
 
+        public async Task<Result<ClienteModel>> InserirCliente(ClienteModel clienteModel)
+        {
+            var cliente = _mapper.Map<Cliente>(clienteModel);
+            await _clienteRepository.Adicionar(cliente);
+            return Result<ClienteModel>.Ok(clienteModel);
+        }
+
         public async Task<Result<ClienteModel>> AtualizarInformacoes(ClienteModel clienteModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteModel);

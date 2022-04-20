@@ -1,6 +1,9 @@
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using LI.Carrinho.API.Filters;
 using LI.Carrinho.API.Logging;
+using LI.Carrinho.CrossCutting.Assemblies;
+using LI.Carrinho.CrossCutting.IoC;
 using LI.Carrinho.Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,12 +34,16 @@ namespace LI.Carrinho.API
 
             services.AddFluentValidation();
 
+            services.AddDependencyResolver();
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new DefaultExceptionFilterAttribute());
             });
 
             services.AddLoggingSerilog();
+
+            services.AddAutoMapper(AssemblyUtil.GetCurrentAssemblies());
 
             services.AddDbContext<CarrinhoContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

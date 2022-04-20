@@ -4,9 +4,8 @@ using LI.Carrinho.Infrastructure.Context;
 
 namespace LI.Carrinho.Infrastructure.Repository
 {
-    public class CarrinhoRepository : Repository<CarrinhoEntity>, ICarrinhoRepository
+    public class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {
-        public CarrinhoRepository(CarrinhoContext context) : base(context) { }
-
+        public ProdutoRepository(CarrinhoContext context) : base(context) { }
     }
 }

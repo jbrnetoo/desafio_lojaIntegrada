@@ -8,6 +8,6 @@ namespace LI.Carrinho.Domain.Entities
         public string Descricao { get; set; }
         public int Peso { get; set; }
         public decimal Preco { get; set; }
-        public IEnumerable<ItemCarrinho> ItemCarrinhos { get; set; }
+        public ICollection<ItemCarrinho> ItemCarrinhos { get; set; }
     }
 }

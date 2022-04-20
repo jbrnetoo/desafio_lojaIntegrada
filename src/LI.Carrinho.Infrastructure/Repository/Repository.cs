@@ -1,5 +1,5 @@
 ﻿using LI.Carrinho.Domain.Entities;
-using LI.Carrinho.Domain.Interfaces;
+using LI.Carrinho.Domain.Interfaces.Repositories;
 using LI.Carrinho.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System;

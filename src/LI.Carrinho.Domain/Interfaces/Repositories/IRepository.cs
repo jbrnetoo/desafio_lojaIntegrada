@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace LI.Carrinho.Domain.Interfaces
+namespace LI.Carrinho.Domain.Interfaces.Repositories
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : Entity
     {

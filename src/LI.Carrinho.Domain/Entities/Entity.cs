@@ -6,7 +6,8 @@ namespace LI.Carrinho.Domain.Entities
     {
         protected Entity()
         {
-            Id = Guid.NewGuid();
+            if (this.Id == Guid.Empty)
+                Id = Guid.NewGuid();
         }
 
         public Guid Id { get; set; }

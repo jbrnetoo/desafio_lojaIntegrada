@@ -33,6 +33,12 @@ namespace LI.Carrinho.Application
             return Result<ClienteModel>.Ok(_mapper.Map<ClienteModel>(cliente));
         }
 
+        public async Task<Result<ClienteModel>> ObterClientePeloDocumento(string documento)
+        {
+            var cliente = await _clienteRepository.ObterClientePorDocumento(documento);
+            return Result<ClienteModel>.Ok(_mapper.Map<ClienteModel>(cliente));
+        }
+
         public async Task<Result<ClienteModel>> InserirCliente(ClienteModel clienteModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteModel);
@@ -43,7 +49,7 @@ namespace LI.Carrinho.Application
         public async Task<Result<ClienteModel>> AtualizarInformacoes(ClienteModel clienteModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteModel);
-            await _clienteRepository.Atualizar(cliente);
+            await _clienteRepository.AtualizarInformacoes(cliente);
 
             return Result<ClienteModel>.Ok(clienteModel);
         }

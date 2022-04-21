@@ -18,7 +18,6 @@ namespace LI.Carrinho.Infrastructure.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(14)");
 
-
             builder.Property(x => x.DtNascimento)
                 .IsRequired()
                 .HasColumnType("datetime");

@@ -12,10 +12,12 @@ namespace LI.Carrinho.Infrastructure.UnitOfWork
         private IClienteRepository _clienteRepository;
         private IProdutoRepository _produtoRepository;
         private ICarrinhoRepository _carrinhoRepository;
+        private IItemCarrinhoRepository _itemCarrinhoRepository;
 
         public UnitOfWorkCarrinho(CarrinhoContext context) : base(context) => _context = context;
-        public IClienteRepository ClienteRepository => _clienteRepository ?? (_clienteRepository = new ClienteRepository(_context));
-        public IProdutoRepository ProdutoRepository => _produtoRepository ?? (_produtoRepository = new ProdutoRepository(_context));
-        public ICarrinhoRepository CarrinhoRepository => _carrinhoRepository ?? (_carrinhoRepository = new CarrinhoRepository(_context));
+        public IClienteRepository ClienteRepository => _clienteRepository ??= new ClienteRepository(_context);
+        public IProdutoRepository ProdutoRepository => _produtoRepository ??= new ProdutoRepository(_context);
+        public ICarrinhoRepository CarrinhoRepository => _carrinhoRepository ??= new CarrinhoRepository(_context);
+        public IItemCarrinhoRepository ItemCarrinhoRepository => _itemCarrinhoRepository ??= new ItemCarrinhoRepository(_context);
     }
 }

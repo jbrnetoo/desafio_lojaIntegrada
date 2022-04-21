@@ -1,6 +1,7 @@
 ﻿using LI.Carrinho.Domain.Entities;
 using LI.Carrinho.Domain.Interfaces.Repositories;
 using LI.Carrinho.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,9 +22,11 @@ namespace LI.Carrinho.Infrastructure.Repository
             return clienteRef;
         }
 
-        public Task<Cliente> ObterClientePorDocumento(string documento)
-        {
-            return Task.FromResult(_context.Clientes.FirstOrDefault(c => c.Cpf.Equals(documento)));
-        }
+        public Task<Cliente> ObterClientePorDocumento(string documento) => Task.FromResult(_context.Clientes
+                .Include(x => x.Carrinho)
+                .ThenInclude(x => x.ItemCarrinhos)
+                .ThenInclude(x => x.Produto)
+                .FirstOrDefault(c => c.Cpf.Equals(documento)));
+
     }
 }

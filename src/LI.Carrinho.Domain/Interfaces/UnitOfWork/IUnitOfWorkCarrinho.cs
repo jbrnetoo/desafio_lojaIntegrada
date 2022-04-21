@@ -7,5 +7,6 @@ namespace LI.Carrinho.Domain.Interfaces.UnitOfWork
         ICarrinhoRepository CarrinhoRepository { get; }
         IProdutoRepository ProdutoRepository { get; }
         IClienteRepository ClienteRepository { get; }
+        IItemCarrinhoRepository ItemCarrinhoRepository { get; }
     }
 }

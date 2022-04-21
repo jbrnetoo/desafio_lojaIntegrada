@@ -34,6 +34,7 @@ namespace LI.Carrinho.CrossCutting.IoC
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
+            services.AddScoped<IItemCarrinhoRepository, ItemCarrinhoRepository>();
         }
     }
 }

@@ -37,33 +37,45 @@ namespace LI.Carrinho.Application
 
         }
 
-        public async Task<Result<ProdutoModel>> AdicionarItem(Guid idProduto, string documento)
+        public async Task<Result<CarrinhoModel>> AdicionarItem(Guid idProduto, string documento)
         {
             if (!CpfCnpjUtils.IsCpf(documento))
-                return Result<ProdutoModel>.Error("O documento informado não é um CPF válido.", (int)HttpStatusCode.BadRequest);
+                return Result<CarrinhoModel>.Error("O documento informado não é um CPF válido.", (int)HttpStatusCode.BadRequest);
 
             var cliente = await _unitOfWorkCarrinho.ClienteRepository.ObterClientePorDocumento(documento);
 
             if (cliente != null)
             {
-                var itemCarrinho = new ItemCarrinho()
+                var itensDic = cliente.Carrinho.ItemCarrinhos.ToDictionary(x => x.IdProduto);
+
+                if (itensDic.ContainsKey(idProduto))
                 {
-                    IdCarrinho = cliente.Carrinho.Id,
-                    IdProduto = idProduto,
-                    Quantidade = 1
-                };
+                    var item = itensDic[idProduto];
+                    item.Quantidade++;
+                }
+                else
+                {
+                    var produto = await _unitOfWorkCarrinho.ProdutoRepository.ObterPorId(idProduto);
 
-                cliente.Carrinho.ItemCarrinhos.Add(itemCarrinho);
+                    var itemCarrinho = new ItemCarrinho()
+                    {
+                        IdCarrinho = cliente.Carrinho.Id,
+                        IdProduto = idProduto,
+                        Quantidade = 1,
+                        Produto = produto
+                    };
 
-                var result = _unitOfWorkCarrinho.Save();
+                    cliente.Carrinho.ItemCarrinhos.Add(itemCarrinho);
+                }
 
-                var produto = await _unitOfWorkCarrinho.ProdutoRepository.ObterPorId(idProduto);
+                cliente.Carrinho.VlTotal = cliente.Carrinho.ItemCarrinhos.Sum(x => x.Produto.Preco * x.Quantidade);
 
+                int result = _unitOfWorkCarrinho.Save();
                 if (result > 0)
-                    return Result<ProdutoModel>.Ok(_mapper.Map<ProdutoModel>(produto));
+                    return Result<CarrinhoModel>.Ok(_mapper.Map<CarrinhoModel>(cliente.Carrinho));
             }
 
-            return Result<ProdutoModel>.Error("Cliente não foi encontrado.", (int)HttpStatusCode.NotFound);
+            return Result<CarrinhoModel>.Error("Cliente não foi encontrado.", (int)HttpStatusCode.NotFound);
         }
 
         public Task<Result<string>> RemoverItem(Guid id)

@@ -1,5 +1,7 @@
-﻿using LI.Carrinho.Application;
+﻿using FluentValidation;
+using LI.Carrinho.Application;
 using LI.Carrinho.Application.Interfaces;
+using LI.Carrinho.Application.Models;
 using LI.Carrinho.Domain.Interfaces.Repositories;
 using LI.Carrinho.Domain.Interfaces.UnitOfWork;
 using LI.Carrinho.Infrastructure.Repository;
@@ -15,6 +17,13 @@ namespace LI.Carrinho.CrossCutting.IoC
             RegisterApplications(services);
             RegisterRepositories(services);
             RegisterUnitOfWork(services);
+            RegisterClasses(services);
+        }
+
+        private static void RegisterClasses(IServiceCollection services)
+        {
+            services.AddScoped<IValidator<ClienteModel>, ClienteModelValidator>();
+            services.AddScoped<IValidator<ProdutoModel>, ProdutoModelValidator>();
         }
 
         private static void RegisterUnitOfWork(IServiceCollection services)

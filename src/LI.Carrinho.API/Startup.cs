@@ -7,6 +7,7 @@ using LI.Carrinho.CrossCutting.IoC;
 using LI.Carrinho.Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,12 +40,18 @@ namespace LI.Carrinho.API
 
             services.AddMvc(options =>
             {
+                options.Filters.Add(typeof(ValidateModelAttribute));
                 options.Filters.Add(new DefaultExceptionFilterAttribute());
             });
 
             services.AddLoggingSerilog();
 
             services.AddAutoMapper(AssemblyUtil.GetCurrentAssemblies());
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddDbContext<CarrinhoContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

@@ -26,4 +26,22 @@ namespace LI.Carrinho.Application.Models
         /// </summary>
         public string Email { get; set; }
     }
+
+    public class ClienteModelValidator : AbstractValidator<ClienteModel>
+    {
+        public ClienteModelValidator()
+        {
+            RuleFor(x => x.Nome)
+                .NotEmpty().WithMessage("O campo {PropertyName} não pode ser vazio")
+                .Length(1, 200).WithMessage("Tamanho ({TotalLength}) do {PropertyName} inválido");
+
+            RuleFor(x => x.Cpf)
+                .NotEmpty().WithMessage("O campo {PropertyName} não pode ser vazio")
+                .Length(1, 11).WithMessage("Tamanho ({TotalLength}) do {PropertyName} inválido");
+
+            RuleFor(x => x.Email)
+                .EmailAddress().WithMessage("O Valor informado: ({PropertyValue}) não é um Email válido")
+                .Length(1, 200).WithMessage("Tamanho ({TotalLength}) do {PropertyName} inválido");
+        }
+    }
 }

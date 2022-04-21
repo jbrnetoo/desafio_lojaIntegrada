@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 
 namespace LI.Carrinho.Application.Models
 {
@@ -24,5 +25,22 @@ namespace LI.Carrinho.Application.Models
         /// Preço do produto
         /// </summary>
         public decimal Preco { get; set; }
+    }
+
+    public class ProdutoModelValidator : AbstractValidator<ProdutoModel>
+    {
+        public ProdutoModelValidator()
+        {
+            RuleFor(x => x.Nome)
+                .NotEmpty().WithMessage("O campo {PropertyName} não pode ser vazio")
+                .Length(1, 200).WithMessage("Tamanho ({TotalLength}) do {PropertyName} inválido");
+
+            RuleFor(x => x.Descricao)
+               .NotEmpty().WithMessage("O campo {PropertyName} não pode ser vazio")
+               .Length(1, 200).WithMessage("Tamanho ({TotalLength}) do {PropertyName} inválido");
+
+            RuleFor(x => x.Peso)
+                .LessThanOrEqualTo(2000).WithMessage("O peso não pode ser maior que 2000");
+        }
     }
 }

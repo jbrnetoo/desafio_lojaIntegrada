@@ -1,5 +1,6 @@
 ﻿using LI.Carrinho.Application.Interfaces;
 using LI.Carrinho.Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -9,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace LI.Carrinho.API.Controllers
 {
+    [Authorize]
+    [ApiVersion("1.0")]
     [Route("[controller]")]
     [ApiController]
     public class ProdutoController : ApiBaseController

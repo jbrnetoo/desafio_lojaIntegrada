@@ -28,10 +28,10 @@ namespace LI.Carrinho.Application
             if (!CpfCnpjUtils.IsCpf(documento))
                 return Result<CarrinhoModel>.Error("O documento informado não é um CPF válido.", (int)HttpStatusCode.BadRequest);
 
-            var carrinhos = await _unitOfWorkCarrinho.CarrinhoRepository.Buscar(x => x.Cliente.Cpf.Equals(documento));
+            var carrinho = await _unitOfWorkCarrinho.CarrinhoRepository.ObterCarrinho(documento);
 
-            if (carrinhos.Any())
-                return Result<CarrinhoModel>.Ok(_mapper.Map<CarrinhoModel>(carrinhos.FirstOrDefault()));
+            if (carrinho != null)
+                return Result<CarrinhoModel>.Ok(_mapper.Map<CarrinhoModel>(carrinho));
             else
                 return Result<CarrinhoModel>.Error("Nenhum carrinho foi encontrado para este cliente.", (int)HttpStatusCode.NotFound);
 

@@ -22,7 +22,7 @@ namespace LI.Carrinho.Infrastructure.Repository
             return clienteRef;
         }
 
-        public Task<Cliente> ObterClientePorDocumento(string documento) => Task.FromResult(_context.Clientes
+        public async Task<Cliente> ObterClientePorDocumento(string documento) => await Task.FromResult(_context.Clientes
                 .Include(x => x.Carrinho)
                 .ThenInclude(x => x.ItemCarrinhos)
                 .ThenInclude(x => x.Produto)

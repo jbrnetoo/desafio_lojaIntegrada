@@ -8,6 +8,5 @@ namespace LI.Carrinho.Application.Models
         public string Cpf { get; set; }
         public DateTime DtNascimento { get; set; }
         public string Email { get; set; }
-        public CarrinhoModel Carrinho { get; set; }
     }
 }

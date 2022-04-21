@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace LI.Carrinho.Infrastructure.Repository
 {
-    public class ItemCarrinhoRepository : IItemCarrinhoRepository 
-    { 
+    public class ItemCarrinhoRepository : IItemCarrinhoRepository
+    {
         private readonly CarrinhoContext _context;
         private readonly DbSet<ItemCarrinho> _dbSet;
 

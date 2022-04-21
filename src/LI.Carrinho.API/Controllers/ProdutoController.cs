@@ -27,7 +27,6 @@ namespace LI.Carrinho.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<ProdutoModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterProdutos()
         {
             var result = await _produtoApplication.ObterProdutos();
@@ -53,7 +52,7 @@ namespace LI.Carrinho.API.Controllers
         [ProducesResponseType(typeof(ProdutoModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ObterClientePorId(Guid codigo)
+        public async Task<IActionResult> ObterProdutoPorId(Guid codigo)
         {
             var result = await _produtoApplication.ObterProdutoPeloId(codigo);
 
@@ -62,6 +61,9 @@ namespace LI.Carrinho.API.Controllers
                 var logMessage = MensagemErro(result.Notifications);
 
                 Log.Error(logMessage);
+
+                if (result.StatusCode == StatusCodes.Status404NotFound)
+                    return NotFound(new ErrorModel(result.Notifications));
 
                 return BadRequest(new ErrorModel(result.Notifications));
             }
@@ -77,7 +79,6 @@ namespace LI.Carrinho.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ProdutoModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CadastrarProduto(ProdutoModel produto)
         {
             var result = await _produtoApplication.CadastrarProduto(produto);
@@ -112,6 +113,9 @@ namespace LI.Carrinho.API.Controllers
                 var logMessage = MensagemErro(result.Notifications);
 
                 Log.Error(logMessage);
+
+                if (result.StatusCode == StatusCodes.Status404NotFound)
+                    return NotFound(new ErrorModel(result.Notifications));
 
                 return BadRequest(new ErrorModel(result.Notifications));
             }

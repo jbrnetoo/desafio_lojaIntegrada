@@ -8,7 +8,7 @@ namespace LI.Carrinho.Domain.Entities
     {
         public CarrinhoEntity()
         {
-            if(ItemCarrinhos == null || !ItemCarrinhos.Any())
+            if (ItemCarrinhos == null || !ItemCarrinhos.Any())
                 ItemCarrinhos = new List<ItemCarrinho>();
         }
 

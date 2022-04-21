@@ -8,6 +8,5 @@ namespace LI.Carrinho.Application.Models
         public decimal VlTotal { get; set; }
         public List<ItemCarrinhoModel> ItemCarrinhos { get; set; }
         public Guid IdCliente { get; set; }
-        public ClienteModel Cliente { get; set; }
     }
 }

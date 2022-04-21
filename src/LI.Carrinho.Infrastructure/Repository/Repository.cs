@@ -36,10 +36,12 @@ namespace LI.Carrinho.Infrastructure.Repository
             return await _dbSet.ToListAsync();
         }
 
-        public virtual async Task Adicionar(TEntity entity)
+        public virtual async Task<TEntity> Adicionar(TEntity entity)
         {
-            _dbSet.Add(entity);
+            var entidade = _dbSet.Add(entity);
             await SaveChanges();
+
+            return entidade.Entity;
         }
 
         public virtual async Task Atualizar(TEntity entity)

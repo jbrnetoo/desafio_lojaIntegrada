@@ -48,8 +48,8 @@ namespace LI.Carrinho.Application
 
         public async Task<Result<ProdutoModel>> CadastrarProduto(ProdutoModel produtoModel)
         {
-            await _produtoRepository.Adicionar(_mapper.Map<Produto>(produtoModel));
-            return Result<ProdutoModel>.Ok(produtoModel);
+            var produto = await _produtoRepository.Adicionar(_mapper.Map<Produto>(produtoModel));
+            return Result<ProdutoModel>.Ok(_mapper.Map<ProdutoModel>(produto));
         }
     }
 }

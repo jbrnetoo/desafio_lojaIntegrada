@@ -36,8 +36,8 @@ namespace LI.Carrinho.Application
         {
             var produto = _mapper.Map<Produto>(produtoModel);
 
-            await _produtoRepository.AtualizarInformacoesProduto(produto);
-            return Result<ProdutoModel>.Ok(produtoModel);
+            var produtoAtualizado = await _produtoRepository.AtualizarInformacoesProduto(produto);
+            return Result<ProdutoModel>.Ok(_mapper.Map<ProdutoModel>(produtoAtualizado));
         }
 
         public async Task<Result<string>> RemoverProduto(Guid id)

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using System;
 using System.Threading.Tasks;
+
 namespace LI.Carrinho.API.Controllers
 {
     [Route("[controller]")]
@@ -118,6 +119,35 @@ namespace LI.Carrinho.API.Controllers
         public async Task<IActionResult> AtualizarQuantidade(Guid idProduto, string documento, int quantidade)
         {
             var result = await _carrinhoApplication.AtualizarQuantidade(idProduto, documento, quantidade);
+
+            if (result.Invalid)
+            {
+                var logMessage = MensagemErro(result.Notifications);
+
+                Log.Error(logMessage);
+
+                if (result.StatusCode == StatusCodes.Status404NotFound)
+                    return NotFound(new ErrorModel(result.Notifications));
+
+                return BadRequest(new ErrorModel(result.Notifications));
+            }
+
+            return Ok(result.Object);
+        }
+
+        /// <summary>
+        /// Adiciona um cupom de desconto ao carrinho
+        /// </summary>
+        /// <param name="idCupom">ID do Cupom</param>
+        /// <param name="documento">Documento do cliente</param>
+        /// <returns>Retorna o carrinho do cliente</returns>
+        [HttpPost("adicionar-cupom")]
+        [ProducesResponseType(typeof(CarrinhoModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AdicionarCupomDesconto(Guid idCupom, string documento)
+        {
+            var result = await _carrinhoApplication.AdicionarCupomDesconto(idCupom, documento);
 
             if (result.Invalid)
             {

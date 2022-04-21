@@ -12,6 +12,7 @@ namespace LI.Carrinho.Infrastructure.Context
         public DbSet<CarrinhoEntity> Carrinhos { get; set; }
         public DbSet<ItemCarrinho> ItemCarrinhos { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Cupom> Cupons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

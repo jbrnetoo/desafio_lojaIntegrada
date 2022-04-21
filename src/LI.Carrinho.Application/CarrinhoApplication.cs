@@ -71,9 +71,7 @@ namespace LI.Carrinho.Application
                     cliente.Carrinho.ItemCarrinhos.Add(itemCarrinho);
                 }
 
-                cliente.Carrinho.VlTotal = cliente.Carrinho.ItemCarrinhos.Sum(x => x.Produto.Preco * x.Quantidade);
-
-                int result = _unitOfWorkCarrinho.Save();
+                int result = RecalcularValorTotal(cliente);
                 if (result > 0)
                     return Result<CarrinhoModel>.Ok(_mapper.Map<CarrinhoModel>(cliente.Carrinho));
             }
@@ -145,22 +143,40 @@ namespace LI.Carrinho.Application
         }
         #endregion
 
-        public Task<Result<string>> AdicionarCupomDesconto()
+        #region Adicionar Cupom Desconto
+        public async Task<Result<CarrinhoModel>> AdicionarCupomDesconto(Guid idCupom, string documento)
         {
-            throw new NotImplementedException();
-        }
+            if (!CpfCnpjUtils.IsCpf(documento))
+                return Result<CarrinhoModel>.Error("O documento informado não é um CPF válido.", (int)HttpStatusCode.BadRequest);
 
-        public Task<Result<string>> GerarTotaisSubtotais()
-        {
-            throw new NotImplementedException();
+            var cliente = await _unitOfWorkCarrinho.ClienteRepository.ObterClientePorDocumento(documento);
+
+            if (cliente != null)
+            {
+                var cupom = await _unitOfWorkCarrinho.CupomRepository.ObterPorId(idCupom);
+                cliente.Carrinho.IdCupom = idCupom;
+                cliente.Carrinho.Cupom = cupom;
+
+                var result = RecalcularValorTotal(cliente);
+                if (result > 0)
+                    return Result<CarrinhoModel>.Ok(_mapper.Map<CarrinhoModel>(cliente.Carrinho));
+                else
+                    return Result<CarrinhoModel>.Error("Cupom já adicionado.", (int)HttpStatusCode.BadRequest);
+            }
+
+            return Result<CarrinhoModel>.Error("Cliente não foi encontrado.", (int)HttpStatusCode.NotFound);
         }
+        #endregion
 
         #region Recalcular Valor Total
-        public void RecalcularValorTotal(Cliente cliente)
+        private int RecalcularValorTotal(Cliente cliente)
         {
-            cliente.Carrinho.VlTotal = cliente.Carrinho.ItemCarrinhos.Sum(x => x.Produto.Preco * x.Quantidade);
+            if (cliente.Carrinho.Cupom != null)
+                cliente.Carrinho.VlTotal = (cliente.Carrinho.ItemCarrinhos.Sum(x => x.Produto.Preco * x.Quantidade)) - cliente.Carrinho.Cupom.ValorCupom;
+            else
+                cliente.Carrinho.VlTotal = (cliente.Carrinho.ItemCarrinhos.Sum(x => x.Produto.Preco * x.Quantidade));
 
-            _unitOfWorkCarrinho.Save();
+            return _unitOfWorkCarrinho.Save();
         }
         #endregion
     }

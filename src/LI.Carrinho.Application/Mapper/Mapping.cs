@@ -11,6 +11,9 @@ namespace LI.Carrinho.Application.Mapper
             CreateMap<ProdutoModel, Produto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Codigo))
                 .ReverseMap();
+            CreateMap<CupomModel, Cupom>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Codigo))
+                .ReverseMap();
             CreateMap<ClienteModel, Cliente>().ReverseMap();
             CreateMap<CarrinhoModel, CarrinhoEntity>().ReverseMap();
             CreateMap<ItemCarrinhoModel, ItemCarrinho>().ReverseMap();

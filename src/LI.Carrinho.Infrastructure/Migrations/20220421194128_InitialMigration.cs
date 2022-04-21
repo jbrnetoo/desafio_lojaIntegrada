@@ -23,6 +23,19 @@ namespace LI.Carrinho.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TB_CUPOM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Descricao = table.Column<string>(type: "varchar(100)", nullable: true),
+                    ValorCupom = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_CUPOM", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TB_PRODUTOS",
                 columns: table => new
                 {
@@ -43,7 +56,8 @@ namespace LI.Carrinho.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VlTotal = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    IdCliente = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IdCliente = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdCupom = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,6 +66,12 @@ namespace LI.Carrinho.Infrastructure.Migrations
                         name: "FK_TB_CARRINHO_TB_CLIENTE_IdCliente",
                         column: x => x.IdCliente,
                         principalTable: "TB_CLIENTE",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TB_CARRINHO_TB_CUPOM_IdCupom",
+                        column: x => x.IdCupom,
+                        principalTable: "TB_CUPOM",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -88,6 +108,11 @@ namespace LI.Carrinho.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_TB_CARRINHO_IdCupom",
+                table: "TB_CARRINHO",
+                column: "IdCupom");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TB_ITEM_CARRINHO_IdCarrinho",
                 table: "TB_ITEM_CARRINHO",
                 column: "IdCarrinho");
@@ -106,6 +131,9 @@ namespace LI.Carrinho.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "TB_CLIENTE");
+
+            migrationBuilder.DropTable(
+                name: "TB_CUPOM");
         }
     }
 }

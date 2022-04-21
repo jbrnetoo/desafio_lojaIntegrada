@@ -27,6 +27,7 @@ namespace LI.Carrinho.CrossCutting.IoC
             services.AddScoped<IClienteApplication, ClienteApplication>();
             services.AddScoped<IProdutoApplication, ProdutoApplication>();
             services.AddScoped<ICarrinhoApplication, CarrinhoApplication>();
+            services.AddScoped<ICupomApplication, CupomApplication>();
         }
 
         private static void RegisterRepositories(IServiceCollection services)
@@ -35,6 +36,7 @@ namespace LI.Carrinho.CrossCutting.IoC
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
             services.AddScoped<IItemCarrinhoRepository, ItemCarrinhoRepository>();
+            services.AddScoped<ICupomRepository, CupomRepository>();
         }
     }
 }

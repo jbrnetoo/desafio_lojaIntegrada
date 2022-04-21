@@ -14,6 +14,11 @@ namespace LI.Carrinho.Infrastructure.Mappings
              .IsRequired()
              .HasColumnType("decimal(10,2)");
 
+            builder.HasOne(c => c.Cupom)
+                .WithMany(c => c.Carrinhos)
+                .HasForeignKey(c => c.IdCupom)
+                .IsRequired(false);
+
             builder.ToTable("TB_CARRINHO");
         }
     }

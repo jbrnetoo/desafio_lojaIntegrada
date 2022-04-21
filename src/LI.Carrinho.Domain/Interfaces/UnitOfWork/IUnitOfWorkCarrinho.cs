@@ -8,5 +8,6 @@ namespace LI.Carrinho.Domain.Interfaces.UnitOfWork
         IProdutoRepository ProdutoRepository { get; }
         IClienteRepository ClienteRepository { get; }
         IItemCarrinhoRepository ItemCarrinhoRepository { get; }
+        ICupomRepository CupomRepository { get; }
     }
 }

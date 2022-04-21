@@ -42,16 +42,16 @@ namespace LI.Carrinho.Application
         public async Task<Result<ClienteModel>> InserirCliente(ClienteModel clienteModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteModel);
-            await _clienteRepository.Adicionar(cliente);
-            return Result<ClienteModel>.Ok(clienteModel);
+            var clienteAdicionado = await _clienteRepository.Adicionar(cliente);
+            return Result<ClienteModel>.Ok(_mapper.Map<ClienteModel>(clienteAdicionado));
         }
 
         public async Task<Result<ClienteModel>> AtualizarInformacoes(ClienteModel clienteModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteModel);
-            await _clienteRepository.AtualizarInformacoes(cliente);
+            var clienteAtualizado = await _clienteRepository.AtualizarInformacoes(cliente);
 
-            return Result<ClienteModel>.Ok(clienteModel);
+            return Result<ClienteModel>.Ok(_mapper.Map<ClienteModel>(clienteAtualizado));
         }
 
         public async Task<Result<string>> RemoverCliente(Guid id)

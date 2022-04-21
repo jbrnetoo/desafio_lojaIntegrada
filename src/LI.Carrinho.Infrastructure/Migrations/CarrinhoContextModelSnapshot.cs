@@ -28,6 +28,9 @@ namespace LI.Carrinho.Infrastructure.Migrations
                     b.Property<Guid>("IdCliente")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("IdCupom")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("VlTotal")
                         .HasColumnType("decimal(10,2)");
 
@@ -35,6 +38,8 @@ namespace LI.Carrinho.Infrastructure.Migrations
 
                     b.HasIndex("IdCliente")
                         .IsUnique();
+
+                    b.HasIndex("IdCupom");
 
                     b.ToTable("TB_CARRINHO");
                 });
@@ -63,6 +68,23 @@ namespace LI.Carrinho.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TB_CLIENTE");
+                });
+
+            modelBuilder.Entity("LI.Carrinho.Domain.Entities.Cupom", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<decimal>("ValorCupom")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TB_CUPOM");
                 });
 
             modelBuilder.Entity("LI.Carrinho.Domain.Entities.ItemCarrinho", b =>
@@ -115,7 +137,13 @@ namespace LI.Carrinho.Infrastructure.Migrations
                         .HasForeignKey("LI.Carrinho.Domain.Entities.CarrinhoEntity", "IdCliente")
                         .IsRequired();
 
+                    b.HasOne("LI.Carrinho.Domain.Entities.Cupom", "Cupom")
+                        .WithMany("Carrinhos")
+                        .HasForeignKey("IdCupom");
+
                     b.Navigation("Cliente");
+
+                    b.Navigation("Cupom");
                 });
 
             modelBuilder.Entity("LI.Carrinho.Domain.Entities.ItemCarrinho", b =>
@@ -143,6 +171,11 @@ namespace LI.Carrinho.Infrastructure.Migrations
             modelBuilder.Entity("LI.Carrinho.Domain.Entities.Cliente", b =>
                 {
                     b.Navigation("Carrinho");
+                });
+
+            modelBuilder.Entity("LI.Carrinho.Domain.Entities.Cupom", b =>
+                {
+                    b.Navigation("Carrinhos");
                 });
 
             modelBuilder.Entity("LI.Carrinho.Domain.Entities.Produto", b =>
